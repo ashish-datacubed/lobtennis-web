@@ -1,58 +1,378 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.6">
-  <style type="text/css">
-    body {background-color: #0d1410}
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 16.0px 'Helvetica Neue'; color: #f2efe6; -webkit-text-stroke: #f2efe6; min-height: 18.0px}
-    p.p2 {margin: 0.0px 0.0px 16.0px 0.0px; text-align: center; font: 12.0px 'Helvetica Neue'; color: #bc993c; -webkit-text-stroke: #bc993c}
-    p.p4 {margin: 0.0px 0.0px 48.0px 0.0px; text-align: center; font: 20.0px 'Helvetica Neue'; color: #788d7c; -webkit-text-stroke: #788d7c}
-    p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 10.0px 'Helvetica Neue'; color: #0d1410; -webkit-text-stroke: #0d1410; min-height: 12.0px}
-    p.p6 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 13.0px 'Helvetica Neue'; color: #f2efe6; -webkit-text-stroke: #f2efe6}
-    p.p7 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 11.0px 'Helvetica Neue'; color: #788d7c; -webkit-text-stroke: #788d7c}
-    p.p8 {margin: 0.0px 0.0px 12.0px 0.0px; font: 11.0px 'Helvetica Neue'; color: #bc993c; -webkit-text-stroke: #bc993c}
-    p.p10 {margin: 0.0px 0.0px 0.0px 0.0px; font: 28.0px '.Apple Color Emoji UI'; color: #f2efe6; -webkit-text-stroke: #f2efe6}
-    p.p12 {margin: 0.0px 0.0px 0.0px 0.0px; font: 14.0px 'Helvetica Neue'; color: #788d7c; -webkit-text-stroke: #788d7c}
-    p.p13 {margin: 0.0px 0.0px 0.0px 0.0px; text-align: center; font: 13.0px 'Helvetica Neue'; color: #788d7c; -webkit-text-stroke: #788d7c}
-    span.s1 {font-kerning: none}
-    span.s2 {font-kerning: none; color: #f2efe6; -webkit-text-stroke: 0px #f2efe6}
-    span.s3 {font-kerning: none; background-color: #16231a}
-    span.s4 {font-kerning: none; color: #45ab75; -webkit-text-stroke: 0px #45ab75}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LobTennis – Find Tennis Players Near You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --court-green: #2D6A4F;
+      --court-green-light: #52B788;
+      --clay:  #C9A84C;
+      --off-white: #F5F2EB;
+      --dark: #0F1A14;
+      --mid: #1C2E22;
+      --text-muted: #8A9E8F;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--off-white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* subtle court-line background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(var(--court-green) 1px, transparent 1px),
+        linear-gradient(90deg, var(--court-green) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.07;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, var(--dark));
+      pointer-events: none;
+    }
+
+    .logo-wrap {
+      width: 100px;
+      height: 100px;
+      background: var(--court-green);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+      box-shadow: 0 0 0 1px rgba(82,183,136,0.3), 0 20px 60px rgba(45,106,79,0.4);
+    }
+
+    .logo-wrap svg {
+      width: 72px;
+      height: 72px;
+    }
+
+    /* invert strokes to white for dark bg */
+    .logo-wrap svg path,
+    .logo-wrap svg ellipse {
+      stroke: #ffffff !important;
+    }
+    .logo-wrap svg rect {
+      fill: transparent !important;
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(64px, 12vw, 120px);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: var(--off-white);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 span {
+      color: var(--court-green-light);
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 48px;
+    }
+
+    .download-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .qr-card {
+      background: var(--mid);
+      border: 1px solid rgba(82,183,136,0.15);
+      border-radius: 16px;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      min-width: 160px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .qr-card:hover {
+      border-color: rgba(82,183,136,0.4);
+      transform: translateY(-3px);
+    }
+
+    .qr-placeholder {
+      width: 100px;
+      height: 100px;
+      background: var(--off-white);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dark);
+      font-size: 10px;
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 8px;
+    }
+
+    /* swap this for a real <img> once you have the QR code */
+    .qr-placeholder svg {
+      opacity: 0.25;
+    }
+
+    .qr-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--off-white);
+      letter-spacing: 0.04em;
+    }
+
+    .qr-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: -8px;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 100px 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-bottom: 12px;
+    }
+
+    .features-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 6vw, 56px);
+      line-height: 1;
+      margin-bottom: 64px;
+      color: var(--off-white);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+    }
+
+    .feature {
+      background: var(--mid);
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+
+    .feature:hover { background: #213028; }
+
+    /* court-line accent on hover */
+    .feature::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--court-green-light);
+      transition: height 0.3s ease;
+    }
+    .feature:hover::before { height: 100%; }
+
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .feature h3 {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--off-white);
+      margin-bottom: 8px;
+    }
+
+    .feature p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 48px 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    footer strong { color: var(--court-green-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .download-row { flex-direction: column; align-items: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .feature, .feature::before, .qr-card { transition: none; }
+    }
   </style>
 </head>
 <body>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p2"><span class="s1">NOW AVAILABLE</span></p>
-<h1 style="margin: 0.0px 0.0px 24.0px 0.0px; text-align: center; font: 96.0px 'Helvetica Neue'; color: #45ab75; -webkit-text-stroke: #45ab75"><span class="s2">Lob</span><span class="s1">Tennis</span></h1>
-<p class="p4"><span class="s1">Find tennis players near you, match your rating, and get on the court — fast.</span></p>
-<p class="p5"><span class="s1"></span><br></p>
-<p class="p6"><span class="s3">App Store</span></p>
-<p class="p7"><span class="s3">iOS</span></p>
-<p class="p5"><span class="s1"></span><br></p>
-<p class="p6"><span class="s3">Google Play</span></p>
-<p class="p7"><span class="s3">Android</span></p>
-<p class="p8"><span class="s1">WHAT YOU CAN DO</span></p>
-<h2 style="margin: 0.0px 0.0px 64.0px 0.0px; font: 48.0px 'Helvetica Neue'; color: #f2efe6; -webkit-text-stroke: #f2efe6"><span class="s1">Your court.<br>
-Your game.</span></h2>
-<p class="p10"><span class="s3">📍</span></p>
-<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 17.0px 'Helvetica Neue'; color: #f2efe6; -webkit-text-stroke: #f2efe6"><span class="s3">Find players near you</span></h3>
-<p class="p12"><span class="s3">Search by location or zip code. Message players directly and set a time to hit.</span></p>
-<p class="p10"><span class="s3">🎾</span></p>
-<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 17.0px 'Helvetica Neue'; color: #f2efe6; -webkit-text-stroke: #f2efe6"><span class="s3">Match your rating</span></h3>
-<p class="p12"><span class="s3">Filter players by skill level so every match is the right challenge.</span></p>
-<p class="p10"><span class="s3">🏫</span></p>
-<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 17.0px 'Helvetica Neue'; color: #f2efe6; -webkit-text-stroke: #f2efe6"><span class="s3">Find a local coach</span></h3>
-<p class="p12"><span class="s3">Browse coaches in your area and book lessons to sharpen your game.</span></p>
-<p class="p10"><span class="s3">📋</span></p>
-<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 17.0px 'Helvetica Neue'; color: #f2efe6; -webkit-text-stroke: #f2efe6"><span class="s3">List yourself as a coach</span></h3>
-<p class="p12"><span class="s3">Offer lessons and let players in your area discover and connect with you.</span></p>
-<p class="p10"><span class="s3">🕐</span></p>
-<h3 style="margin: 0.0px 0.0px 8.0px 0.0px; font: 17.0px 'Helvetica Neue'; color: #f2efe6; -webkit-text-stroke: #f2efe6"><span class="s3">Set your availability</span></h3>
-<p class="p12"><span class="s3">Let others know when you're looking to play. Get matched with players free at the same time.</span></p>
-<p class="p13"><span class="s1">© 2026 </span><span class="s4">LobTennis</span><span class="s1">. All rights reserved.</span></p>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="logo-wrap">
+      <!-- Your SVG logo, strokes turned white via CSS -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+        <rect width="500" height="500" fill="transparent"/>
+        <path style="fill:none;stroke:#fff;stroke-width:12px;transform-box:fill-box;transform-origin:48.8088% 54.2505%;" d="M 354.499 142.902 L 383.9676666666667 137.22666666666666 C 413.4363333333334 131.55133333333333 472.3736666666667 120.20066666666666 476.0943333333334 154.01916666666665 C 479.81500000000005 187.83766666666665 428.31899999999996 266.82533333333333 346.8316666666667 323.37966666666665 C 265.3443333333333 379.93399999999997 153.86566666666667 414.055 103.41699999999999 415.82449999999994 C 52.968333333333334 417.594 63.54966666666667 387.012 75.4405 363.228 C 87.33133333333335 339.444 100.53166666666668 322.458 107.13183333333332 313.965 L 113.732 305.472" transform="matrix(0.999043, -0.043733, 0.043733, 0.999043, 0, -0.000001)"/>
+        <ellipse style="stroke:#fff;fill:none;stroke-width:12px;" cx="250" cy="250" rx="134.638" ry="134.638"/>
+        <path style="fill:none;stroke:#fff;stroke-width:12px;" d="M 247.079 117.991 L 248.734 128.01816666666667 C 250.389 138.04533333333333 253.69899999999998 158.09966666666665 262.0713333333333 174.9415 C 270.4436666666667 191.78333333333333 283.87833333333333 205.4126666666667 297.11816666666664 217.67916666666667 C 310.358 229.94566666666665 323.40299999999996 240.84933333333333 323.2083333333333 257.0098333333333 C 323.01366666666667 273.1703333333333 309.5793333333333 294.5876666666666 289.2328333333333 308.7035 C 268.8863333333333 322.8193333333333 241.62766666666667 329.63366666666667 224.10433333333336 317.562 C 206.581 305.49033333333335 198.793 274.53266666666667 192.5625 254.673 C 186.332 234.8133333333333 181.659 226.05166666666665 171.43699999999998 216.41383333333332 C 161.215 206.77599999999998 145.444 196.26199999999997 137.5585 191.005 L 129.673 185.748"/>
+      </svg>
+    </div>
+
+    <p class="hero-eyebrow">Now Available</p>
+    <h1>Lob<span>Tennis</span></h1>
+    <p class="hero-sub">Find tennis players near you, match your rating, and get on the court — fast.</p>
+
+    <div class="download-row">
+      <div class="qr-card">
+        <!-- Replace .qr-placeholder with <img src="qr-ios.png" width="100" height="100" /> -->
+        <div class="qr-placeholder">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <rect x="4" y="4" width="20" height="20" rx="2" stroke="#0F1A14" stroke-width="3"/>
+            <rect x="9" y="9" width="10" height="10" fill="#0F1A14"/>
+            <rect x="36" y="4" width="20" height="20" rx="2" stroke="#0F1A14" stroke-width="3"/>
+            <rect x="41" y="9" width="10" height="10" fill="#0F1A14"/>
+            <rect x="4" y="36" width="20" height="20" rx="2" stroke="#0F1A14" stroke-width="3"/>
+            <rect x="9" y="41" width="10" height="10" fill="#0F1A14"/>
+            <line x1="36" y1="36" x2="56" y2="36" stroke="#0F1A14" stroke-width="3"/>
+            <line x1="36" y1="44" x2="44" y2="44" stroke="#0F1A14" stroke-width="3"/>
+            <line x1="48" y1="44" x2="56" y2="44" stroke="#0F1A14" stroke-width="3"/>
+            <line x1="36" y1="52" x2="56" y2="52" stroke="#0F1A14" stroke-width="3"/>
+          </svg>
+        </div>
+        <span class="qr-label">App Store</span>
+        <span class="qr-sub">iOS</span>
+      </div>
+
+      <div class="qr-card">
+        <!-- Replace .qr-placeholder with <img src="qr-android.png" width="100" height="100" /> -->
+        <div class="qr-placeholder">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+            <rect x="4" y="4" width="20" height="20" rx="2" stroke="#0F1A14" stroke-width="3"/>
+            <rect x="9" y="9" width="10" height="10" fill="#0F1A14"/>
+            <rect x="36" y="4" width="20" height="20" rx="2" stroke="#0F1A14" stroke-width="3"/>
+            <rect x="41" y="9" width="10" height="10" fill="#0F1A14"/>
+            <rect x="4" y="36" width="20" height="20" rx="2" stroke="#0F1A14" stroke-width="3"/>
+            <rect x="9" y="41" width="10" height="10" fill="#0F1A14"/>
+            <line x1="36" y1="36" x2="56" y2="36" stroke="#0F1A14" stroke-width="3"/>
+            <line x1="36" y1="44" x2="56" y2="44" stroke="#0F1A14" stroke-width="3"/>
+            <line x1="36" y1="52" x2="44" y2="52" stroke="#0F1A14" stroke-width="3"/>
+            <line x1="50" y1="52" x2="56" y2="52" stroke="#0F1A14" stroke-width="3"/>
+          </svg>
+        </div>
+        <span class="qr-label">Google Play</span>
+        <span class="qr-sub">Android</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <p class="section-label">What you can do</p>
+    <h2 class="features-heading">Your court.<br>Your game.</h2>
+
+    <div class="features-grid">
+      <div class="feature">
+        <span class="feature-icon">📍</span>
+        <h3>Find players near you</h3>
+        <p>Search by location or zip code. Message players directly and set a time to hit.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🎾</span>
+        <h3>Match your rating</h3>
+        <p>Filter players by skill level so every match is the right challenge.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🏫</span>
+        <h3>Find a local coach</h3>
+        <p>Browse coaches in your area and book lessons to sharpen your game.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">📋</span>
+        <h3>List yourself as a coach</h3>
+        <p>Offer lessons and let players in your area discover and connect with you.</p>
+      </div>
+      <div class="feature">
+        <span class="feature-icon">🕐</span>
+        <h3>Set your availability</h3>
+        <p>Let others know when you're looking to play. Get matched with players free at the same time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 <strong>LobTennis</strong>. All rights reserved.</p>
+  </footer>
+
 </body>
 </html>
